@@ -7,6 +7,10 @@
   (merge (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
          {"/about/" about-page}))
 
+(defn get-pages []
+  (merge (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
+         (partial-pages (stasis/slurp-directory "resources/partials" #".*\.html$"))))
+
 (def app (stasis/serve-pages get-pages))
 
 (defn layout-page [page]
@@ -23,3 +27,8 @@
 
 (defn about-page [request]
   (layout-page (slurp (io/resource "partials/about.html"))))
+
+(defn partial-pages [pages]
+  (zipmap (keys pages)
+          (map layout-page (vals pages))))
+
