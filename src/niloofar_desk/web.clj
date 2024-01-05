@@ -3,16 +3,6 @@
             [hiccup.page :refer [html5]]
             [clojure.java.io :as io]))
 
-(defn get-pages []
-  (merge (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
-         {"/about/" about-page}))
-
-(defn get-pages []
-  (merge (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
-         (partial-pages (stasis/slurp-directory "resources/partials" #".*\.html$"))))
-
-(def app (stasis/serve-pages get-pages))
-
 (defn layout-page [page]
   (html5
    [:head
@@ -25,10 +15,17 @@
     [:div.logo "cjohansen.no"]
     [:div.body page]]))
 
-(defn about-page [request]
-  (layout-page (slurp (io/resource "partials/about.html"))))
-
 (defn partial-pages [pages]
   (zipmap (keys pages)
           (map layout-page (vals pages))))
+
+(defn get-pages []
+  (merge (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
+         (partial-pages (stasis/slurp-directory "resources/partials" #".*\.html$"))))
+
+(def app (stasis/serve-pages get-pages))
+
+(defn about-page [request]
+  (layout-page (slurp (io/resource "partials/about.html"))))
+
 
