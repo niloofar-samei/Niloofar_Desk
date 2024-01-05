@@ -1,9 +1,11 @@
 (ns niloofar_desk.web
   (:require [stasis.core :as stasis]
-            [hiccup.page :refer [html5]]))
+            [hiccup.page :refer [html5]]
+            [clojure.java.io :as io]))
 
 (defn get-pages []
-  (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$"))
+  (merge (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
+         {"/about/" about-page}))
 
 (def app (stasis/serve-pages get-pages))
 
@@ -18,3 +20,6 @@
    [:body
     [:div.logo "cjohansen.no"]
     [:div.body page]]))
+
+(defn about-page [request]
+  (layout-page (slurp (io/resource "partials/about.html"))))
