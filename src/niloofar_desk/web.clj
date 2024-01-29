@@ -19,9 +19,10 @@
   (zipmap (keys pages)
           (map layout-page (vals pages))))
 
-(defn get-pages []
-  (merge (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
-         (partial-pages (stasis/slurp-directory "resources/partials" #".*\.html$"))))
+(defn get-pages[]
+  (stasis/merge-page-sources
+    {:public (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
+     :partials (partial-pages (stasis/slurp-directory "resources/partials" #".*\.html$"))}))
 
 (def app (stasis/serve-pages get-pages))
 
