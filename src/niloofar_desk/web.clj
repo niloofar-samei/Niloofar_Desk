@@ -1,7 +1,10 @@
 (ns niloofar_desk.web
   (:require [stasis.core :as stasis]
             [hiccup.page :refer [html5]]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [clojure.string :as str]
+            [me.rayanes.cegdown :as md]))
+
 
 (defn layout-page [page]
   (html5

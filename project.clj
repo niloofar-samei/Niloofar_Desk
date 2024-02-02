@@ -6,7 +6,8 @@
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [stasis "2023.11.21"]
                  [ring "1.11.0"]
-                 [hiccup "2.0.0-RC2"]]
+                 [hiccup "2.0.0-RC2"]
+                 [me.raynes/cegdown "0.1.1"]]
   :ring {:handler niloofar_desk.web/app}
   :profiles {:dev {:plugins [[lein-ring "0.12.6"]]}}
   :repl-options {:init-ns niloofar-desk.core})
