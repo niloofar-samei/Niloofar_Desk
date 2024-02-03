@@ -29,7 +29,4 @@
 
 (def app (stasis/serve-pages get-pages))
 
-;(defn about-page [request]
-;  (layout-page (slurp (io/resource "partials/about.html"))))
-
 
