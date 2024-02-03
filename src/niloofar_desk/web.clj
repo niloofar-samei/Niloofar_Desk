@@ -3,7 +3,7 @@
             [hiccup.page :refer [html5]]
             [clojure.java.io :as io]
             [clojure.string :as str]
-            [me.rayanes.cegdown :as md]))
+            [me.raynes.cegdown :as md]))
 
 
 (defn layout-page [page]
