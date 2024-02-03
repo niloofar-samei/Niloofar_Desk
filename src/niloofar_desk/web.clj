@@ -18,14 +18,22 @@
     [:div.logo "cjohansen.no"]
     [:div.body page]]))
 
+(defn markdown-pages [pages]
+  (zipmap (map #(str/replace % #"\.md$" "") (keys pages))
+          (map #(layout-page (md/to-html %)) (vals pages))))
+
 (defn partial-pages [pages]
   (zipmap (keys pages)
           (map layout-page (vals pages))))
 
-(defn get-pages[]
+(defn get-pages []
   (stasis/merge-page-sources
-    {:public (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
-     :partials (partial-pages (stasis/slurp-directory "resources/partials" #".*\.html$"))}))
+   {:public
+    (stasis/slurp-directory "resources/public" #".*\.(html|css|js)$")
+    :partials
+    (partial-pages (stasis/slurp-directory "resources/partials" #".*\.html$"))
+    :markdown
+    (markdown-pages (stasis/slurp-directory "resources/md" #"\.md$"))}))
 
 (def app (stasis/serve-pages get-pages))
 
